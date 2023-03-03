@@ -1,4 +1,5 @@
 // renderer.js
+// noinspection JSUnresolvedFunction
 
 // This file is loaded via the <script> tag in the index.html file and will
 // be executed in the renderer process for that window. No Node.js APIs are
@@ -6,14 +7,20 @@
 // `contextIsolation` is turned on. Use the contextBridge API in `preload.js`
 // to expose Node.js functionality from the main process.
 $(document).ready(function () {
-    console.log('Running renderer.js');
+    console.debug('Running renderer.js onReady');
 
-    let count = 0;
-    $('#click-counter').text(count.toString());
-    $('#countbtn').on('click', () => {
-        count++;
-        $('#click-counter').text(count);
-    });
-
-    console.log('renderer.js finished');
+    console.debug('renderer.js finished');
 });
+
+show = function (id) {
+    console.debug('showing: ' + id);
+
+    // Hide all others
+    $('#installed').addClass('visually-hidden');
+    $('#updates').addClass('visually-hidden');
+    $('#search').addClass('visually-hidden');
+
+    // Show only selected
+    $('#' + id).removeClass('visually-hidden');
+}
+

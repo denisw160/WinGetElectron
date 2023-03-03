@@ -4,23 +4,164 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <!-- https://www.electronjs.org/docs/latest/tutorial/security#7-define-a-content-security-policy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'">
     <title>WinGet Package Manager</title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+    <!-- Application styles -->
+    <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-<h1>WinGet Package Manager</h1>
-We are using Node.js <span id="node-version"></span>,
-Chromium <span id="chrome-version"></span>,
-and Electron <span id="electron-version"></span>.
 
-<div class="container">
-    <h1>This page is using Bootstrap and jQuery!</h1>
-    <h3 id="click-counter"></h3>
-    <button class="btn btn-success" id="countbtn">Click here</button>
+<div class="container py-3">
+    <header>
+        <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+            <div class="d-flex align-items-center">
+                <!--suppress CheckImageSize -->
+                <img alt="Logo" src="./icon.png" width="32px"/>
+                <span class="fs-4 fw-bold ms-2 text-primary"> WinGet Package Manager</span>
+            </div>
+
+            <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+                <a class="me-3 py-2 text-dark text-decoration-none" href="javascript:show('installed');">Installed</a>
+                <a class="me-3 py-2 text-dark text-decoration-none" href="javascript:show('updates');">Updates</a>
+                <a class="me-3 py-2 text-dark text-decoration-none" href="javascript:show('search');">Search</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Installed applications - default shown -->
+        <div id="installed">
+            <div class="p-3 text-center">
+                <h3 class="fw-bold">Installed</h3>
+                <small class="text-muted">
+                    These applications are installed. If you want to install updates, goto <a
+                        href="javascript:show('updates');">Updates</a>.
+                </small>
+            </div>
+            <div>
+                <div class="table-responsive">
+                    <table class="table text-center">
+                        <thead>
+                        <tr>
+                            <th class="w-50"></th>
+                            <th class="w-25">ID</th>
+                            <th class="w-25">Version</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th class="text-start" scope="row">
+                                App
+                            </th>
+                            <td>
+                                App.1
+                            </td>
+                            <td>
+                                123.4
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Updates for applications - default hidden -->
+        <div id="updates" class="visually-hidden">
+            <div class="p-3 text-center">
+                <h3 class="fw-bold">Updates</h3>
+                <small class="text-muted">
+                    These applications have newer versions available. If you needed the complete list of installed
+                    applications, goto <a href="javascript:show('installed');">Installed</a>.
+                </small>
+            </div>
+            <div>
+                <div class="table-responsive">
+                    <table class="table text-center">
+                        <thead>
+                        <tr>
+                            <th style="width: 40%;"></th>
+                            <th style="width: 20%;">ID</th>
+                            <th style="width: 20%;">Installed</th>
+                            <th style="width: 20%;">Available</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="row" class="text-start">
+                                App
+                            </th>
+                            <td>
+                                App.1
+                            </td>
+                            <td>
+                                123.4
+                            </td>
+                            <td>
+                                123.5
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search for application - default hidden -->
+        <div id="search" class="visually-hidden">
+            <div class="p-3 text-center">
+                <h3 class="fw-bold">Search for Applications</h3>
+                <small class="text-muted">
+                    Search for available applications from WinGet.
+                </small>
+                <form class="m-3" role="search">
+                    <div class="input-group mb-3">
+                        <input class="form-control" placeholder="Search..." type="search"
+                               aria-label="Search" aria-describedby="btn-search">
+                        <button id="btn-search" class="btn btn-primary" type="button">Search</button>
+                    </div>
+                </form>
+            </div>
+            <div>
+                <div class="table-responsive">
+                    <table class="table text-center">
+                        <thead>
+                        <tr>
+                            <th class="w-50"></th>
+                            <th class="w-25">ID</th>
+                            <th class="w-25">Version</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="row" class="text-start">
+                                App
+                            </th>
+                            <td>
+                                App.1
+                            </td>
+                            <td>
+                                123.4
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="my-5 pt-5 border-top">
+        <small class="d-flex flex-row-reverse mb-3 text-muted">
+            &copy; 2023 - Powered by Node.js, Electron.js, Bootstrap and jQuery
+        </small>
+    </footer>
 </div>
 
 <!-- jQuery and Bootstrap -->
