@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
     <!-- https://www.electronjs.org/docs/latest/tutorial/security#7-define-a-content-security-policy -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data:">
     <title>WinGet Package Manager</title>
 
     <!-- Bootstrap CSS -->
@@ -120,10 +120,10 @@
                 <small class="text-muted">
                     Search for available applications from WinGet.
                 </small>
-                <form class="m-3" role="search">
+                <form class="m-3 was-validated" role="search">
                     <div class="input-group mb-3">
-                        <input class="form-control" placeholder="Search..." type="search"
-                               aria-label="Search" aria-describedby="btn-search">
+                        <input id="fld-search" class="form-control" placeholder="Search..." type="search"
+                               aria-label="Search" aria-describedby="btn-search" required>
                         <button id="btn-search" class="btn btn-primary" type="button">Search</button>
                     </div>
                 </form>

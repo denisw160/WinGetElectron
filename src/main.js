@@ -1,9 +1,31 @@
 // main.js
+// noinspection JSUnresolvedFunction,JSUnresolvedVariable
 
 // Modules to control application life and create native browser window
-const {app, BrowserWindow, globalShortcut} = require('electron');
+const {app, BrowserWindow, globalShortcut, ipcMain} = require('electron');
 const os = require('os');
 const path = require('path');
+
+/**
+ * Handle the search.
+ *
+ * @param event Event
+ * @param query Search Term
+ */
+function handleSearch(event, query) {
+    console.log("Query is: " + query);
+    return {
+        success: true,
+        results: []
+    };
+}
+
+/**
+ * Register handling of IPC events.
+ */
+function registerIpcEvents() {
+    ipcMain.handle('do-search', handleSearch);
+}
 
 const createWindow = () => {
     // Create the browser window.
@@ -40,6 +62,8 @@ const createWindow = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+    registerIpcEvents();
+
     createWindow();
 
     app.on('activate', () => {
