@@ -1,13 +1,13 @@
 {
   "name": "winget-electron-app",
   "version": "1.0.0",
-  "description": "A simple Electron App for WinGet package manager",
+  "description": "A simple Electron app for WinGet package manager",
   "author": "Denis Wirries",
   "license": "MIT",
   "keywords": [
     "WinGet",
     "Electron",
-    "package manager"
+    "Package Manager"
   ],
   "homepage": "https://github.com/denisw160/WinGetEletron#readme",
   "bugs": {
@@ -19,6 +19,12 @@
   },
   "main": "src/main.js",
   "scripts": {
+    "build": "echo \"Error: no build specified\" && exit 1",
+    "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.5",
+    "electron": "^23.1.1"
   }
 }

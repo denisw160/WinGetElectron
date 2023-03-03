@@ -1,2 +1,3 @@
 # WinGetElectron
-A simple Electron App for WinGet package manager.
+
+A simple Electron app for WinGet package manager.
