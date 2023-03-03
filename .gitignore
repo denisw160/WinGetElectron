@@ -105,3 +105,6 @@ dist
 
 # Jetbrains Project files
 /.idea
+
+# Electron
+/out
