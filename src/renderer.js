@@ -46,9 +46,26 @@ $(document).ready(function () {
     oSearchButton.addEventListener('click', async () => {
         const oSearchField = document.getElementById('fld-search');
         if (oSearchField.value !== undefined && oSearchField.value.length > 0) {
+            // Start the spinner
             spinner(true);
+
+            // Clear table
+            $("#tbl-search > tbody").empty();
+
+            // Execute search
             const oResult = await window.electronAPI.doSearch(oSearchField.value);
-            oSearchField.value = oResult.success;
+            if (!oResult.success || oResult.results.length === 0) {
+                $('#tbl-search > tbody')
+                    .append('<tr><th scope="row" class="text-start" colspan="3">No results</th></tr>');
+            } else {
+                debugger;
+                oResult.results.forEach(value => {
+                    $('#tbl-search > tbody')
+                        .append('<tr><th scope="row" class="text-start">' + value.name + '</th><td>' + value.id + '</td><td>' + value.version + '</td></tr>');
+                });
+            }
+
+            // Hide the spinner
             spinner(false);
         }
     })

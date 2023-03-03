@@ -17,17 +17,92 @@ const exec = util.promisify(require('child_process').exec);
 async function handleSearch(event, query) {
     console.debug('Search for query: ' + query);
 
-    const command = 'winget search ' + query;
-    console.debug('Command: ' + query);
+    const command = 'winget search ' + query + ' --disable-interactivity';
+    console.debug('Command: ' + command);
 
-    const {stdout, stderr} = await exec(command);
-    console.log(stdout);
+    try {
+        const {stdout, stderr} = await exec(command);
+        if (stderr) {
+            console.error('Error during execution');
+            console.error(stderr);
+        }
+        console.debug('Command output is');
+        console.debug(stdout);
 
+        // Nothing returned
+        if (stdout === undefined || stdout.length === 0) {
+            return {
+                success: false,
+                results: []
+            };
+        }
 
-    return {
-        success: true,
-        results: []
-    };
+        // No packages found.
+        // Es wurde kein Paket gefunden, das den Eingabekriterien entspricht.
+        if (stdout.indexOf('Es wurde kein Paket gefunden') > 0) { // TODO Translate
+            return {
+                success: true,
+                results: []
+            };
+        }
+
+        // Extract the header and parse indexes of the columns
+        const sHeaderRow = stdout.substring(stdout.indexOf('Name'), stdout.indexOf('\r\n'));
+        const aColIndexes = [];
+        aColIndexes.push(sHeaderRow.indexOf("Name"));
+        aColIndexes.push(sHeaderRow.indexOf("ID"));
+        aColIndexes.push(sHeaderRow.indexOf("Version"));
+        aColIndexes.push(sHeaderRow.indexOf("bereinstimmung") - 1); // TODO Translate
+        aColIndexes.push(sHeaderRow.indexOf("Quelle")); // TODO Translate
+        console.debug(aColIndexes);
+
+        // Extract the table content and rows
+        let sBodyText = stdout.substring(stdout.indexOf('\r\n') + 2, stdout.length);
+        sBodyText = sBodyText.substring(sBodyText.indexOf('\r\n') + 2, sBodyText.length);
+        console.debug(sBodyText);
+
+        let aRows = sBodyText.split("\r\n");
+        console.debug(sBodyText);
+
+        const oResult = {
+            success: true,
+            results: []
+        };
+
+        aRows.forEach(sRow => {
+            const oRow = {};
+            for (let i = 1; i <= aColIndexes.length; i++) {
+                let iStartIndex = aColIndexes[i - 1];
+                let iEndIndex = aColIndexes[i];
+                const sCol = sRow.substring(iStartIndex, iEndIndex).trim();
+                console.debug(i + ": " + sCol);
+
+                if (i === 1) {
+                    oRow.name = sCol;
+                } else if (i === 2) {
+                    oRow.id = sCol;
+                } else if (i === 3) {
+                    oRow.version = sCol;
+                } else if (i === 4) {
+                    oRow.additional = sCol;
+                } else if (i === 5) {
+                    oRow.source = sCol;
+                }
+            }
+
+            if (oRow.name !== undefined && oRow.name.length > 0) {
+                oResult.results.push(oRow);
+            }
+        });
+
+        return oResult;
+    } catch (e) {
+        console.error(e);
+        return {
+            success: false,
+            results: []
+        };
+    }
 }
 
 /**

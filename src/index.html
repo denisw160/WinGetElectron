@@ -128,17 +128,17 @@
                 <small class="text-muted">
                     Search for available applications from WinGet.
                 </small>
-                <form class="m-3 was-validated" role="search">
+                <div class="m-3 was-validated" role="search" action="java">
                     <div class="input-group mb-3">
                         <input id="fld-search" class="form-control" placeholder="Search..." type="search"
                                aria-label="Search" aria-describedby="btn-search" required>
                         <button id="btn-search" class="btn btn-primary" type="button">Search</button>
                     </div>
-                </form>
+                </div>
             </div>
             <div>
                 <div class="table-responsive">
-                    <table class="table text-center">
+                    <table id="tbl-search" class="table text-center">
                         <thead>
                         <tr>
                             <th class="w-50"></th>
@@ -147,6 +147,7 @@
                         </tr>
                         </thead>
                         <tbody>
+                        <!-- Sample
                         <tr>
                             <th scope="row" class="text-start">
                                 App
@@ -158,6 +159,7 @@
                                 123.4
                             </td>
                         </tr>
+                        -->
                         </tbody>
                     </table>
                 </div>
