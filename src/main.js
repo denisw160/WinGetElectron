@@ -18,7 +18,7 @@ async function handleSearch(event, query) {
     console.debug('Search for query: ' + query);
 
     const command = 'winget search ' + query + ' --disable-interactivity';
-    console.debug('Command: ' + command);
+    //console.debug('Command: ' + command);
 
     try {
         const {stdout, stderr} = await exec(command);
@@ -26,8 +26,8 @@ async function handleSearch(event, query) {
             console.error('Error during execution');
             console.error(stderr);
         }
-        console.debug('Command output is');
-        console.debug(stdout);
+        //console.debug('Command output is');
+        //console.debug(stdout);
 
         // Nothing returned
         if (stdout === undefined || stdout.length === 0) {
@@ -54,28 +54,27 @@ async function handleSearch(event, query) {
         aColIndexes.push(sHeaderRow.indexOf("Version"));
         aColIndexes.push(sHeaderRow.indexOf("bereinstimmung") - 1); // TODO Translate
         aColIndexes.push(sHeaderRow.indexOf("Quelle")); // TODO Translate
-        console.debug(aColIndexes);
+        //console.debug(aColIndexes);
 
         // Extract the table content and rows
         let sBodyText = stdout.substring(stdout.indexOf('\r\n') + 2, stdout.length);
         sBodyText = sBodyText.substring(sBodyText.indexOf('\r\n') + 2, sBodyText.length);
-        console.debug(sBodyText);
+        //console.debug(sBodyText);
 
         let aRows = sBodyText.split("\r\n");
-        console.debug(sBodyText);
+        //console.debug(sBodyText);
 
         const oResult = {
             success: true,
             results: []
         };
-
         aRows.forEach(sRow => {
             const oRow = {};
             for (let i = 1; i <= aColIndexes.length; i++) {
                 let iStartIndex = aColIndexes[i - 1];
                 let iEndIndex = aColIndexes[i];
                 const sCol = sRow.substring(iStartIndex, iEndIndex).trim();
-                console.debug(i + ": " + sCol);
+                //console.debug(i + ": " + sCol);
 
                 if (i === 1) {
                     oRow.name = sCol;
