@@ -5,6 +5,8 @@
 const {app, BrowserWindow, globalShortcut, ipcMain} = require('electron');
 const os = require('os');
 const path = require('path');
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
 
 /**
  * Handle the search.
@@ -12,8 +14,16 @@ const path = require('path');
  * @param event Event
  * @param query Search Term
  */
-function handleSearch(event, query) {
-    console.log("Query is: " + query);
+async function handleSearch(event, query) {
+    console.debug('Search for query: ' + query);
+
+    const command = 'winget search ' + query;
+    console.debug('Command: ' + query);
+
+    const {stdout, stderr} = await exec(command);
+    console.log(stdout);
+
+
     return {
         success: true,
         results: []
