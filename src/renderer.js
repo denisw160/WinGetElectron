@@ -36,6 +36,10 @@ spinner = function (bShow) {
     }
 }
 
+runInstall = function (sId) {
+    console.info('install: ' + sId);
+}
+
 /**
  * Register, when document is ready.
  */
@@ -58,10 +62,13 @@ $(document).ready(function () {
                 $('#tbl-search > tbody')
                     .append('<tr><th scope="row" class="text-start" colspan="3">No results</th></tr>');
             } else {
-                debugger;
                 oResult.results.forEach(value => {
                     $('#tbl-search > tbody')
-                        .append('<tr><th scope="row" class="text-start">' + value.name + '</th><td>' + value.id + '</td><td>' + value.version + '</td></tr>');
+                        .append('<tr>')
+                        .append('<th scope="row" class="text-start"><a href="javascript:runInstall(\'' + value.id + '\')">' + value.name + '</a></th>')
+                        .append('<td>' + value.id + '</td>')
+                        .append('<td>' + value.version + '</td>')
+                        .append('</tr>');
                 });
             }
 
